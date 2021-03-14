@@ -3,13 +3,14 @@ import React, { useEffect, useState } from "react";
 import ERC725 from "erc725.js";
 import Web3 from "web3";
 
-import Card from "react-bootstrap/Card";
+import AnonymousProfileCard from "./ProfileList/AnonymousProfileCard";
+import LSP3ProfileCard from "./ProfileList/LSP3ProfileCard";
 
 const web3 = new Web3(
   new Web3.providers.HttpProvider("https://rpc.l14.lukso.network")
 );
 
-export default function ERC725Account({ designer }) {
+export default function ERC725Account({ designer, filterAnon }) {
   const schema = [
     {
       name: "SupportedStandards:ERC725Account",
@@ -48,34 +49,25 @@ export default function ERC725Account({ designer }) {
   const erc725 = new ERC725(schema, address, web3.currentProvider);
 
   const getLSP3ProfileData = async () => {
-    const data = await erc725.fetchData("LSP3Profile");
+    const data = await erc725.getAllData();
+    data.profile = await erc725.fetchData("LSP3Profile");
     return data;
   };
 
-  const [own, setOwn] = useState();
+  const [account, setAccount] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getLSP3ProfileData();
-      setOwn(data);
+      setAccount(data);
     };
     fetchData();
   }, []);
 
-  const card = own?.LSP3Profile ? (
-    <Card style={{ width: "18rem" }} className="m-4">
-      <Card.Img
-        variant="top"
-        src={`https://ipfs.io/ipfs/${own?.LSP3Profile?.profileImage[0]?.url?.substr(
-          7
-        )}`}
-      />
-      <Card.Body>
-        <Card.Title>{own?.LSP3Profile?.name}</Card.Title>
-        <Card.Text>{own?.LSP3Profile?.description}</Card.Text>
-      </Card.Body>
-    </Card>
-  ) : null;
-
-  return card;
+  return account?.profile?.LSP3Profile?.profileImage[0] &&
+    account?.profile?.LSP3Profile?.name ? (
+    <LSP3ProfileCard LSP3Profile={account?.profile?.LSP3Profile} />
+  ) : filterAnon ? null : (
+    <AnonymousProfileCard />
+  );
 }
