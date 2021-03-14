@@ -6,9 +6,28 @@ import {
   ApolloLink,
 } from "@apollo/client";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
+import Profiles from "./Profiles/Profiles";
+import Header from "./Header/Header";
 // import { MeteorAccountsLink } from 'meteor/apollo'
 
-const cache = new InMemoryCache().restore(window.__APOLLO_STATE__);
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        allDesigners: {
+          keyArgs: false,
+          merge(existing = [], incoming) {
+            return [...existing, ...incoming];
+          },
+        },
+      },
+    },
+  },
+}).restore(window.__APOLLO_STATE__);
 
 const link = ApolloLink.from([
   // MeteorAccountsLink(),
@@ -25,8 +44,9 @@ const client = new ApolloClient({
 
 export const App = () => (
   <ApolloProvider client={client}>
-    <div>
-      <h1>Welcome to Meteor! ☄</h1>
-    </div>
+    <Container>
+      <Header />
+      <Profiles />
+    </Container>
   </ApolloProvider>
 );

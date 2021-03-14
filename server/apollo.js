@@ -20,8 +20,8 @@ export const typeDefs = gql`
   }
 
   type Query {
-    profiles(pageSize: Int, after: String): ProfileConnection!
-    designers(pageSize: Int, after: String): DesignersConnection!
+    getProfiles(pageSize: Int, after: String): ProfileConnection!
+    getDesigners(pageSize: Int, after: String): DesignersConnection!
   }
 
   type ProfileConnection {
@@ -38,7 +38,7 @@ export const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    profiles: async (_, { pageSize = 20, after }, { dataSources }) => {
+    getProfiles: async (_, { pageSize = 20, after }, { dataSources }) => {
       const allProfiles = await dataSources.ProfileProvider.getAllProfiles();
       allProfiles.reverse();
       const profiles = paginateResults({
@@ -57,7 +57,7 @@ const resolvers = {
       };
     },
 
-    designers: async (_, { pageSize = 20, after }, { dataSources }) => {
+    getDesigners: async (_, { pageSize = 20, after }, { dataSources }) => {
       const allDesigners = await dataSources.ProfileProvider.getAllDesigners();
       allDesigners.reverse();
       const designers = paginateResults({
