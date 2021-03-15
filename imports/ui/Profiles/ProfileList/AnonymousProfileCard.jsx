@@ -1,10 +1,11 @@
 import React from "react";
 
 import Card from "react-bootstrap/Card";
+import BaseCard from "./BaseCard";
 
 export default function AnonymousProfileCard() {
   return (
-    <Card style={{ width: "18rem" }} className="m-4">
+    <BaseCard style={{ width: "18rem" }} className="m-4">
       <Card.Img
         variant="top"
         src={
@@ -12,6 +13,6 @@ export default function AnonymousProfileCard() {
         }
       />
       <Card.Body></Card.Body>
-    </Card>
+    </BaseCard>
   );
 }

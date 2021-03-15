@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useQuery } from "@apollo/client";
-import { gql } from "apollo-boost";
+
 import ERC725Account from "./ERC725Account";
 
 import Container from "react-bootstrap/Container";
@@ -9,22 +9,8 @@ import Col from "react-bootstrap/Col";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 
-const GET_DESIGNERS = gql`
-  {
-    designersList: getDesigners(pageSize: 100) {
-      designers {
-        id
-        username
-        address
-        timestamp
-      }
-    }
-  }
-`;
-
-export const Profiles = () => {
-  const { loading, error, data } = useQuery(GET_DESIGNERS);
-  const [filterAnon, setFilterAnon] = useState(false);
+const Profiler = ({ QUERY, filterAnon, setFilterAnon }) => {
+  const { loading, error, data } = useQuery(QUERY);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error ⁉️</p>;
@@ -62,10 +48,10 @@ export const Profiles = () => {
       </Row>
 
       <Container className="d-flex flex-wrap justify-content-between">
-        {data?.designersList?.designers?.map(designer => (
+        {data?.profilesList?.profiles?.map(profile => (
           <ERC725Account
-            key={designer.id}
-            designer={designer}
+            key={profile.id}
+            profile={profile}
             filterAnon={filterAnon}
           />
         ))}
@@ -74,4 +60,4 @@ export const Profiles = () => {
   );
 };
 
-export default Profiles;
+export default Profiler;

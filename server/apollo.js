@@ -40,7 +40,7 @@ const resolvers = {
   Query: {
     getProfiles: async (_, { pageSize = 20, after }, { dataSources }) => {
       const allProfiles = await dataSources.ProfileProvider.getAllProfiles();
-      allProfiles.reverse();
+      // allProfiles.reverse();
       const profiles = paginateResults({
         after,
         pageSize,
@@ -59,7 +59,7 @@ const resolvers = {
 
     getDesigners: async (_, { pageSize = 20, after }, { dataSources }) => {
       const allDesigners = await dataSources.ProfileProvider.getAllDesigners();
-      allDesigners.reverse();
+      // allDesigners.reverse();
       const designers = paginateResults({
         after,
         pageSize,

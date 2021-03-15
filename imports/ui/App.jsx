@@ -6,17 +6,25 @@ import {
   ApolloLink,
 } from "@apollo/client";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
-import Profiles from "./Profiles/Profiles";
+import { BrowserRouter as Router, Redirect, Switch } from "react-router-dom";
 import Header from "./Header/Header";
 // import { MeteorAccountsLink } from 'meteor/apollo'
 
 import Container from "react-bootstrap/Container";
+import NavBar from "./Header/NavBar";
+import ProfilerRoute from "./Profiles/ProfilerRoute";
 
 const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
         allDesigners: {
+          keyArgs: false,
+          merge(existing = [], incoming) {
+            return [...existing, ...incoming];
+          },
+        },
+        allProfiles: {
           keyArgs: false,
           merge(existing = [], incoming) {
             return [...existing, ...incoming];
@@ -42,9 +50,15 @@ const client = new ApolloClient({
 
 export const App = () => (
   <ApolloProvider client={client}>
-    <Container>
-      <Header />
-      <Profiles />
-    </Container>
+    <Router>
+      <NavBar />
+      <Container>
+        <Header />
+        <Switch>
+          <Redirect exact from="/" to="/designers" />
+          <ProfilerRoute />
+        </Switch>
+      </Container>
+    </Router>
   </ApolloProvider>
 );
