@@ -2,23 +2,25 @@ import React from "react";
 
 import Card from "react-bootstrap/Card";
 
-import BaseCard from "./BaseCard";
+import "./profile-list.css";
 
-export default function LSP3ProfileCard({ LSP3Profile }) {
+export default function LSP3ProfileCard({ LSP3Profile, blockie }) {
+  const profileImage = !!LSP3Profile?.profileImage
+    ? `https://ipfs.lukso.network/ipfs/${LSP3Profile?.profileImage[0]?.url?.substr(
+        7
+      )}`
+    : "https://universalprofile.cloud/images/icons/profile-placeholder.jpg";
   return (
-    <BaseCard>
+    <Card className="m-3 profile-list-profile">
       <Card.Img
+        className="profile-list-image"
         variant="top"
-        src={`https://ipfs.lukso.network/ipfs/${LSP3Profile?.profileImage[0]?.url?.substr(
-          7
-        )}`}
+        src={profileImage}
       />
-      <Card.Body>
-        <Card.Text>{LSP3Profile?.name}</Card.Text>
-        {/* <Card.Text style={{ height: "3rem" }} className="overflow-auto">
-          {LSP3Profile?.description}
-        </Card.Text> */}
+      <Card.Body className="profile-list-content">
+        <Card.Text className="name">{LSP3Profile?.name}</Card.Text>
+        <img className="identicon" src={blockie} />
       </Card.Body>
-    </BaseCard>
+    </Card>
   );
 }

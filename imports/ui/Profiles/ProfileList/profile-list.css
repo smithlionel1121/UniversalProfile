@@ -1,0 +1,73 @@
+.profile-container {
+  display: grid;
+  grid-template-columns: 12.5rem;
+  grid-template-rows: 15.625rem;
+  gap: 0px 0px;
+  grid-template-areas: "profile-list-profile";
+}
+
+.profile-list-profile {
+  display: grid;
+  grid-template-columns: 12.5rem;
+  grid-template-rows: 12.5rem 3.125rem;
+  gap: 0px 0px;
+  grid-template-areas:
+    "profile-list-image"
+    "profile-list-content";
+  grid-area: profile-list-profile;
+}
+
+/* a.profile-review-box:focus,a.profile-review-box:hover {
+  box-shadow: 0 6px 16px 0 rgba(0,0,0,.1);
+  -webkit-box-shadow: 0 6px 16px 0 rgba(0,0,0,.1);
+  -moz-box-shadow: 0 6px 16px 0 rgba(0,0,0,.1);
+  transform: scale(1.05)
+} */
+
+.profile-list-profile:focus,
+.profile-list-profile:hover {
+  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+
+.profile-list-image {
+  height: 12.5rem;
+  width: 12.5rem;
+  grid-area: profile-list-image;
+  background-size: cover;
+  background-position: 50%;
+}
+
+.profile-list-content {
+  display: grid;
+  grid-template-columns: 13.125rem 3.125rem;
+  grid-template-rows: 3.125rem;
+  height: 3.125rem;
+  gap: 0px 0px;
+  grid-template-areas: "name identicon";
+  grid-area: profile-list-content;
+}
+
+.name {
+  grid-area: name;
+  padding: 0;
+  padding-left: 1mm;
+}
+
+.identicon {
+  display: grid;
+  grid-template-columns: 3.125rem;
+  grid-template-rows: 3.125rem;
+  gap: 0px 0px;
+  grid-template-areas: ".";
+  grid-area: id;
+  width: 3.125rem;
+  height: 3.125rem;
+  background-size: cover;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  clip-path: polygon(100% 0, 0 100%, 100% 100%);
+}

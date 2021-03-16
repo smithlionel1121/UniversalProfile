@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import ERC725 from "erc725.js";
 import Web3 from "web3";
-
-import AnonymousProfileCard from "./ProfileList/AnonymousProfileCard";
+import makeBlockie from "ethereum-blockies-base64";
 import LSP3ProfileCard from "./ProfileList/LSP3ProfileCard";
 
 const web3 = new Web3(
@@ -62,7 +61,8 @@ const makeCancelable = promise => {
 
 export default function ERC725Account({ profile, filterAnon }) {
   const { address } = profile;
-
+  let img = makeBlockie(address);
+  const [blockie, setblockie] = useState(img);
   const erc725 = new ERC725(schema, address, web3.currentProvider);
 
   async function getLSP3ProfileData() {
@@ -87,8 +87,11 @@ export default function ERC725Account({ profile, filterAnon }) {
 
   return account?.profile?.LSP3Profile?.profileImage[0] &&
     account?.profile?.LSP3Profile?.name ? (
-    <LSP3ProfileCard LSP3Profile={account?.profile?.LSP3Profile} />
+    <LSP3ProfileCard
+      LSP3Profile={account?.profile?.LSP3Profile}
+      blockie={blockie}
+    />
   ) : filterAnon ? null : (
-    <AnonymousProfileCard />
+    <LSP3ProfileCard blockie={blockie} />
   );
 }

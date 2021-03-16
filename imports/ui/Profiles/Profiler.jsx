@@ -1,5 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
+// import "./ProfileList/ind.css";
 
 import ERC725Account from "./ERC725Account";
 
@@ -47,9 +48,10 @@ const Profiler = ({ QUERY, filterAnon, setFilterAnon }) => {
         </Col>
       </Row>
 
-      <Container className="d-flex flex-wrap justify-content-between">
+      <Container className="d-flex flex-wrap justify-content-evenly">
         {data?.profilesList?.profiles?.map(profile => (
           <ERC725Account
+            className="profile-container"
             key={profile.id}
             profile={profile}
             filterAnon={filterAnon}
