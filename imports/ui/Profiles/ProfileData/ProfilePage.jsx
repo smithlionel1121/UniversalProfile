@@ -2,9 +2,9 @@ import React, { useState, Fragment } from "react";
 import {
   Switch,
   Route,
-  Link,
   useRouteMatch,
   withRouter,
+  Redirect,
 } from "react-router-dom";
 
 import AddressProfile from "./AddressProfile";
@@ -13,9 +13,29 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-export function ProfilePage() {
+export function ProfilePage(props) {
   const [address, setAddress] = useState("");
   let { path, url } = useRouteMatch();
+  const [remember, setRemember] = useState(false);
+
+  const onCheck = () => {
+    setRemember(!remember);
+  };
+
+  const handleChange = e => setAddress(e.target.value);
+
+  const onEnter = e => {
+    if (e.key === "Enter") {
+      getAddress();
+    }
+  };
+
+  function getAddress() {
+    if (remember) {
+      localStorage.setItem("myProfile", address);
+    }
+    props.history.push(`${path}/${address}`);
+  }
 
   return (
     <Fragment>
@@ -26,24 +46,33 @@ export function ProfilePage() {
             type="text"
             placeholder="Address"
             value={address}
-            onChange={e => setAddress(e.target.value)}
+            onChange={handleChange}
+            onKeyDown={onEnter}
           />
         </Form.Group>
         <Form.Group controlId="rememberCheckbox">
-          <Form.Check type="checkbox" label="This is my profile" />
+          <Form.Check
+            name="remember"
+            type="checkbox"
+            label="This is my profile"
+            checked={remember}
+            onChange={onCheck}
+          />
         </Form.Group>
-        <Link to={`${path}/${address}`}>
-          <Button variant="primary" type="button">
-            Submit
-          </Button>
-        </Link>
+        <Button variant="primary" type="button" onClick={getAddress}>
+          Submit
+        </Button>
       </Container>
 
       <Switch>
         <Route exact path={path}>
-          <Container>
-            <h3>Please enter an address.</h3>
-          </Container>
+          {!!localStorage.getItem("myProfile") ? (
+            <Redirect to={`${path}/${localStorage.getItem("myProfile")}`} />
+          ) : (
+            <Container>
+              <h3>Please enter an address.</h3>
+            </Container>
+          )}
         </Route>
         <Route
           path={`${path}/:profileAddress`}
@@ -59,4 +88,4 @@ export function ProfilePage() {
   );
 }
 
-export default ProfilePage;
+export default withRouter(ProfilePage);

@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import FilteredLSP3Profiles from "./ProfileList/ProfileFilter";
+import { Link } from "react-router-dom";
 
 const Profiler = ({ QUERY, filterAnon, setFilterAnon }) => {
   const { loading, error, data } = useQuery(QUERY);
@@ -20,6 +21,11 @@ const Profiler = ({ QUERY, filterAnon, setFilterAnon }) => {
     <div>
       <Row>
         <Col>
+          <div className="float-start pb-2">
+            <Row>
+              <Link to="/address">My Profile</Link>
+            </Row>
+          </div>
           <div className="float-end">
             <Row>
               <span>Anonymous Profile Filter:</span>

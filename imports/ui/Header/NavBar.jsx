@@ -1,14 +1,15 @@
 import React from "react";
 
 import Nav from "react-bootstrap/Nav";
+import { withRouter } from "react-router";
 import { LinkContainer } from "react-router-bootstrap";
 
-export default function NavBar() {
+export function NavBar(props) {
   return (
     <Nav
       justify
       variant="tabs"
-      activeKey={`/${window.location.pathname.split("/")[1]}`}
+      activeKey={`/${props.location.pathname.split("/")[1]}`}
     >
       <Nav.Item>
         <LinkContainer to="/profiles">
@@ -23,3 +24,5 @@ export default function NavBar() {
     </Nav>
   );
 }
+
+export default withRouter(NavBar);

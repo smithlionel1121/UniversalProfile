@@ -1,5 +1,5 @@
 {
-  "name": "UniversalProfile",
+  "name": "universalprofile",
   "private": true,
   "scripts": {
     "start": "meteor run",
