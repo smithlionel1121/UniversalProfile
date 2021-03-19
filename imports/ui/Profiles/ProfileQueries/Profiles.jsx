@@ -4,7 +4,7 @@ import { gql } from "apollo-boost";
 
 const GET_PROFILES = gql`
   {
-    profilesList: getProfiles(pageSize: 250) {
+    profilesList: getProfiles(pageSize: 50) {
       profiles {
         id
         username

@@ -63,6 +63,7 @@ export const ERC725Account = Component => ({ address, filterAnon = false }) => {
   const [blockie, setblockie] = useState(img);
   const erc725 = new ERC725(schema, address, web3.currentProvider);
 
+  erc725.options.ipfsGateway = "https://ipfs.lukso.network/ipfs/";
   async function getLSP3ProfileData() {
     const data = await erc725.getAllData();
     data.profile = await erc725.fetchData("LSP3Profile");
@@ -80,8 +81,12 @@ export const ERC725Account = Component => ({ address, filterAnon = false }) => {
         setContractFound(true);
       })
       .catch(err => {
-        if (err.message === "Missing ERC725 contract address.") {
-          setContractFound(false);
+        if (!err.isCanceled) {
+          if (err.message === "Missing ERC725 contract address.") {
+            setContractFound(false);
+          } else {
+            console.error(err);
+          }
         }
       });
     return () => {

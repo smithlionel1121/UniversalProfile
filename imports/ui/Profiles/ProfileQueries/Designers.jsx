@@ -5,7 +5,7 @@ import Profiler from "../Profiler";
 
 const GET_DESIGNERS = gql`
   {
-    profilesList: getDesigners(pageSize: 250) {
+    profilesList: getDesigners(pageSize: 50) {
       profiles: designers {
         id
         username
