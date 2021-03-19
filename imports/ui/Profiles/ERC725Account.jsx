@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import ERC725 from "erc725.js";
 import Web3 from "web3";
 import makeBlockie from "ethereum-blockies-base64";
-import LSP3ProfileCard from "./ProfileList/LSP3ProfileCard";
 
 const web3 = new Web3(
   new Web3.providers.HttpProvider("https://rpc.l14.lukso.network")
@@ -59,8 +58,7 @@ const makeCancelable = promise => {
   };
 };
 
-export default function ERC725Account({ profile, filterAnon }) {
-  const { address } = profile;
+export const ERC725Account = Component => ({ address, filterAnon = false }) => {
   let img = makeBlockie(address);
   const [blockie, setblockie] = useState(img);
   const erc725 = new ERC725(schema, address, web3.currentProvider);
@@ -72,26 +70,62 @@ export default function ERC725Account({ profile, filterAnon }) {
   }
 
   const [account, setAccount] = useState();
+  const [contractFound, setContractFound] = useState(true);
 
   useEffect(() => {
     const cancelablePromise = makeCancelable(getLSP3ProfileData());
     cancelablePromise.promise
       .then(data => {
         setAccount(data);
+        setContractFound(true);
       })
-      .catch();
+      .catch(err => {
+        if (err.message === "Missing ERC725 contract address.") {
+          setContractFound(false);
+        }
+      });
     return () => {
       cancelablePromise.cancel();
     };
   }, []);
 
-  return account?.profile?.LSP3Profile?.profileImage[0] &&
-    account?.profile?.LSP3Profile?.name ? (
-    <LSP3ProfileCard
-      LSP3Profile={account?.profile?.LSP3Profile}
+  let profileData;
+  const anon =
+    !account?.profile?.LSP3Profile?.profileImage[0] &&
+    !account?.profile?.LSP3Profile?.name;
+  const profileImage = !!account?.profile?.LSP3Profile?.profileImage[0]
+    ? `https://ipfs.lukso.network/ipfs/${account?.profile?.LSP3Profile?.profileImage[0]?.url?.substr(
+        7
+      )}`
+    : `${location.origin}/images/icons/profile-placeholder.jpg`;
+  const backgroundImage = !!account?.profile?.LSP3Profile?.backgroundImage[0]
+    ? `https://ipfs.lukso.network/ipfs/${account?.profile?.LSP3Profile?.backgroundImage[0]?.url?.substr(
+        7
+      )}`
+    : "";
+  const name = account?.profile?.LSP3Profile?.name;
+  const description = account?.profile?.LSP3Profile?.description;
+  const links = account?.profile?.LSP3Profile?.links;
+  profileData = {
+    anon,
+    address,
+    profileImage,
+    backgroundImage,
+    name,
+    description,
+    links,
+  };
+
+  return (
+    <Component
       blockie={blockie}
+      filterAnon={filterAnon}
+      account={account}
+      profileData={profileData}
+      contractFound={contractFound}
+      erc725={erc725}
     />
-  ) : filterAnon ? null : (
-    <LSP3ProfileCard blockie={blockie} />
   );
-}
+};
+
+export default ERC725Account;

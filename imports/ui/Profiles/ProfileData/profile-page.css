@@ -1,0 +1,38 @@
+.identicon-right-abs {
+  width: 3.125rem;
+  height: 3.125rem;
+  background-size: cover;
+  position: absolute;
+  right: 0;
+  top: 0;
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+
+.profile-background-image {
+  position: relative;
+  height: 250px;
+
+  margin-bottom: -110px;
+
+  background-size: cover;
+  background-position: 50%;
+  background-color: #f2f2f2;
+  z-index: -1;
+}
+
+@media only screen and (max-width: 1199px) {
+  .profile-background-image {
+    width: 100vw;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .profile-background-image {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    border-radius: 125px;
+    -moz-border-radius: 125px;
+    -webkit-border-radius: 125px;
+  }
+}

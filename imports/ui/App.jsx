@@ -10,7 +10,6 @@ import { BrowserRouter as Router, Redirect, Switch } from "react-router-dom";
 import Header from "./Header/Header";
 // import { MeteorAccountsLink } from 'meteor/apollo'
 
-import Container from "react-bootstrap/Container";
 import NavBar from "./Header/NavBar";
 import ProfilerRoute from "./Profiles/ProfilerRoute";
 
@@ -52,13 +51,11 @@ export const App = () => (
   <ApolloProvider client={client}>
     <Router>
       <NavBar />
-      <Container>
-        <Header />
-        <Switch>
-          <Redirect exact from="/" to="/designers" />
-          <ProfilerRoute />
-        </Switch>
-      </Container>
+      <Header />
+      <Switch>
+        <Redirect exact from="/" to="/designers" />
+        <ProfilerRoute />
+      </Switch>
     </Router>
   </ApolloProvider>
 );

@@ -1,14 +1,12 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-// import "./ProfileList/ind.css";
-
-import ERC725Account from "./ERC725Account";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
+import FilteredLSP3Profiles from "./ProfileList/ProfileFilter";
 
 const Profiler = ({ QUERY, filterAnon, setFilterAnon }) => {
   const { loading, error, data } = useQuery(QUERY);
@@ -50,10 +48,10 @@ const Profiler = ({ QUERY, filterAnon, setFilterAnon }) => {
 
       <Container className="d-flex flex-wrap justify-content-evenly">
         {data?.profilesList?.profiles?.map(profile => (
-          <ERC725Account
+          <FilteredLSP3Profiles
             className="profile-container"
             key={profile.id}
-            profile={profile}
+            address={profile.address}
             filterAnon={filterAnon}
           />
         ))}
