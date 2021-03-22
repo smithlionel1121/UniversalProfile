@@ -1,36 +1,30 @@
-import React, { Fragment } from "react";
-
+import React, { Fragment, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import "./profile-page.css";
-import ERC725Account from "../ERC725Account";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
 
-export const URLProfileAddress = Component => () => {
-  let { profileAddress } = useParams();
-  return <Component address={profileAddress} filterAnon={false} />;
-};
+import makeBlockie from "ethereum-blockies-base64";
+import useLSP3Profile from "../../Hooks/useLSP3Profile";
 
-export function AddressProfileData({
-  account,
-  blockie,
-  profileData,
-  contractFound,
-}) {
+export function AddressProfileData() {
+  let { profileAddress } = useParams();
+  let address = profileAddress;
+  const [account, contractFound, profileData] = useLSP3Profile(address);
+
+  const { profileImage, name, description } = profileData;
+  const backgroundImage = `url(${profileData.backgroundImage})`;
+
+  let img = makeBlockie(address);
+  const [blockie, setblockie] = useState(img);
   if (!contractFound) {
     return <div className="text-center p-3">Contract address not found</div>;
   }
   const colClass = "d-flex justify-content-center py-2";
-
-  const backgroundImage = !!account?.profile?.LSP3Profile?.backgroundImage
-    ? `url(https://ipfs.lukso.network/ipfs/${account?.profile?.LSP3Profile?.backgroundImage[0]?.url?.substr(
-        7
-      )})`
-    : "https://universalprofile.cloud/images/icons/profile-placeholder.jpg";
 
   return (
     <Fragment>
@@ -46,21 +40,19 @@ export function AddressProfileData({
                 maxWidth: "250px",
                 maxHeight: "250px",
               }}
-              src={profileData.profileImage}
+              src={profileImage}
               roundedCircle
             />
           </Col>
         </Row>
         <Row>
           <Col xs={12} className={colClass}>
-            <span>
-              {`@${profileData.name || profileData.address.substring(2, 10)}`}
-            </span>
+            <span>{`@${name || address.substring(2, 10)}`}</span>
           </Col>
         </Row>
         <Row>
           <Col xs={12} className={colClass}>
-            <span>{profileData.description}</span>
+            <span>{description}</span>
           </Col>
         </Row>
       </Container>
@@ -68,6 +60,4 @@ export function AddressProfileData({
   );
 }
 
-const AddressProfile = URLProfileAddress(ERC725Account(AddressProfileData));
-
-export default AddressProfile;
+export default AddressProfileData;

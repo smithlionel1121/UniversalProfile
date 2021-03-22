@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
-import FilteredLSP3Profiles from "./ProfileList/ProfileFilter";
+import ProfileFilter from "./ProfileList/ProfileFilter";
 import { Link } from "react-router-dom";
 
 const Profiler = ({ QUERY, filterAnon, setFilterAnon }) => {
@@ -54,7 +54,7 @@ const Profiler = ({ QUERY, filterAnon, setFilterAnon }) => {
 
       <Container className="d-flex flex-wrap justify-content-evenly">
         {data?.profilesList?.profiles?.map(profile => (
-          <FilteredLSP3Profiles
+          <ProfileFilter
             className="profile-container"
             key={profile.id}
             address={profile.address}
