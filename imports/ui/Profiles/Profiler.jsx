@@ -6,13 +6,23 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
+import Spinner from "react-bootstrap/Spinner";
 import ProfileFilter from "./ProfileList/ProfileFilter";
 import { Link } from "react-router-dom";
 
 const Profiler = ({ QUERY, filterAnon, setFilterAnon }) => {
   const { loading, error, data } = useQuery(QUERY);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="text-center pt-5">
+        <Spinner
+          animation="border"
+          variant="secondary"
+          style={{ width: "12rem", height: "12rem" }}
+        />
+      </div>
+    );
   if (error) return <p>Error ⁉️</p>;
 
   const handleChange = val => setFilterAnon(val);
