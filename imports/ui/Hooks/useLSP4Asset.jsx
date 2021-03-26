@@ -1,17 +1,11 @@
 import React from "react";
 
-import Web3 from "web3";
-
 import useERC725Contract from "./useERC725Contract";
 import useFetchContractData from "./useFetchContractData";
 
 import { promisedBatchRequest } from "./utils";
 
 import abi from "../abis/LSP4DigitalCertificate.json";
-
-const web3 = new Web3(
-  new Web3.providers.HttpProvider("https://rpc.l14.lukso.network")
-);
 
 const schema = [
   {
