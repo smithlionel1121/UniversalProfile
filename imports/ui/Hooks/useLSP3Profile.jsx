@@ -46,8 +46,8 @@ export default function useLSP3Profile(address) {
   }
 
   const [contract, contractFound] = useFetchContractData(
-    erc725,
-    getLSP3ProfileData
+    getLSP3ProfileData,
+    erc725
   );
 
   let profileData;

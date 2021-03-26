@@ -19,9 +19,7 @@ export default function ProfilerRoute() {
           <Designers filterAnon={filterAnon} setFilterAnon={setFilterAnon} />
         </Route>
       </Container>
-      <Route path="/address">
-        <ProfilePage />
-      </Route>
+      <Route path="/address" component={ProfilePage} />
     </Fragment>
   );
 }

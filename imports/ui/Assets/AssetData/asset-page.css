@@ -1,0 +1,29 @@
+.asset-background-image {
+  position: relative;
+  height: 450px;
+  margin-bottom: 5%;
+  max-width: 100vw;
+
+  background-size: cover;
+  background-position: top;
+  background-color: #f2f2f2;
+  z-index: -1;
+}
+
+.asset-image {
+  background-color: #f2f2f2;
+  min-width: 250px;
+  max-width: 250px;
+  max-height: 250px;
+}
+
+@media only screen and (min-width: 1200px) {
+  .asset-background-image {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    border-radius: 125px;
+    -moz-border-radius: 125px;
+    -webkit-border-radius: 125px;
+  }
+}

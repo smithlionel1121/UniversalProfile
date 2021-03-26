@@ -6,12 +6,18 @@ import {
   ApolloLink,
 } from "@apollo/client";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
-import { BrowserRouter as Router, Redirect, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import Header from "./Header/Header";
 // import { MeteorAccountsLink } from 'meteor/apollo'
 
 import NavBar from "./Header/NavBar";
 import ProfilerRoute from "./Profiles/ProfilerRoute";
+import AssetRoute from "./Assets/AssetRoute";
 
 const cache = new InMemoryCache({
   typePolicies: {
@@ -54,7 +60,12 @@ export const App = () => (
       <Header />
       <Switch>
         <Redirect exact from="/" to="/designers" />
-        <ProfilerRoute />
+        <Route path="/asset">
+          <AssetRoute />
+        </Route>
+        <Route path="/">
+          <ProfilerRoute />
+        </Route>
       </Switch>
     </Router>
   </ApolloProvider>

@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 
 import { makeCancelable } from "./utils";
 
-function useFetchContractData(erc725, fetchFunction) {
+function useFetchContractData(fetchFunction, ...params) {
   const [contract, setContract] = useState();
   const [contractFound, setContractFound] = useState(true);
 
   useEffect(() => {
-    const cancelablePromise = makeCancelable(fetchFunction(erc725));
+    const cancelablePromise = makeCancelable(fetchFunction(...params));
     cancelablePromise.promise
       .then(data => {
         setContract(data);

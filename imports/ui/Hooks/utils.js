@@ -1,3 +1,8 @@
+import Web3 from "web3";
+const web3 = new Web3(
+  new Web3.providers.HttpProvider("https://rpc.l14.lukso.network")
+);
+
 export const makeCancelable = promise => {
   let hasCanceled_ = false;
 
@@ -15,3 +20,17 @@ export const makeCancelable = promise => {
     },
   };
 };
+
+export function promisedBatchRequest(arr, fromAddress) {
+  let BatchRequest = new web3.eth.BatchRequest();
+  let requestsArray = arr.map(
+    call =>
+      new Promise((resolve, reject) => {
+        let request = call.request({ from: fromAddress }, (error, result) => {
+          error ? reject(error) : resolve(result);
+        });
+        BatchRequest.add(request);
+      })
+  );
+  return BatchRequest.execute(), Promise.all(requestsArray);
+}

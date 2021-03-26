@@ -2,19 +2,19 @@ import React, { useState, Fragment } from "react";
 import {
   Switch,
   Route,
-  useRouteMatch,
   withRouter,
-  Redirect,
+  useRouteMatch,
   Link,
+  Redirect,
 } from "react-router-dom";
 
-import AddressProfile from "./AddressProfile";
+import AddressAsset from "./AddressAsset";
 
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-export function ProfilePage(props) {
+export function AssetPage(props) {
   const [address, setAddress] = useState("");
   let { path, url } = useRouteMatch();
   const [remember, setRemember] = useState(false);
@@ -33,7 +33,7 @@ export function ProfilePage(props) {
 
   function getAddress() {
     if (remember) {
-      localStorage.setItem("myProfile", address);
+      localStorage.setItem("myAsset", address);
     }
     props.history.push(`${path}/${address}`);
   }
@@ -41,7 +41,7 @@ export function ProfilePage(props) {
   return (
     <Fragment>
       <Container className="py-5">
-        <Link to="/asset">Switch to assets</Link>
+        <Link to="/address">Switch to profiles</Link>
         <Form.Group controlId="contractAddress">
           <Form.Label>Contract Address:</Form.Label>
           <Form.Control
@@ -56,7 +56,7 @@ export function ProfilePage(props) {
           <Form.Check
             name="remember"
             type="checkbox"
-            label="This is my profile"
+            label="Remember asset"
             checked={remember}
             onChange={onCheck}
           />
@@ -68,8 +68,8 @@ export function ProfilePage(props) {
 
       <Switch>
         <Route exact path={path}>
-          {!!localStorage.getItem("myProfile") ? (
-            <Redirect to={`${path}/${localStorage.getItem("myProfile")}`} />
+          {!!localStorage.getItem("myAsset") ? (
+            <Redirect to={`${path}/${localStorage.getItem("myAsset")}`} />
           ) : (
             <Container>
               <h3>Please enter an address.</h3>
@@ -77,10 +77,10 @@ export function ProfilePage(props) {
           )}
         </Route>
         <Route
-          path={`${path}/:profileAddress`}
+          path={`${path}/:assetAddress`}
           render={props => (
-            <AddressProfile
-              key={props.match.params.profileAddress}
+            <AddressAsset
+              key={props.match.params.assetAddress}
               address={address}
             />
           )}
@@ -90,4 +90,4 @@ export function ProfilePage(props) {
   );
 }
 
-export default withRouter(ProfilePage);
+export default withRouter(AssetPage);
