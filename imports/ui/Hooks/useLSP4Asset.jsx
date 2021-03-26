@@ -96,7 +96,7 @@ export default function useLSP4AssetData(assetAddress, account) {
     ? `https://ipfs.lukso.network/ipfs/${contract?.asset?.LSP4Metadata?.images?.[0]?.[0]?.url?.substr(
         7
       )}`
-    : `${location.origin}/images/icons/digital-fashion-placeholder.jpg`;
+    : `${location.origin}/images/digital-fashion-placeholder.jpg`;
   let description = contract?.asset?.LSP4Metadata?.description;
   assetData = {
     assetImages,

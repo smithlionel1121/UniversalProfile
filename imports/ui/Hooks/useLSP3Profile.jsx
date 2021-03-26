@@ -58,7 +58,7 @@ export default function useLSP3Profile(address) {
     ? `https://ipfs.lukso.network/ipfs/${contract?.profile?.LSP3Profile?.profileImage[0]?.url?.substr(
         7
       )}`
-    : `${location.origin}/images/icons/profile-placeholder.jpg`;
+    : `${location.origin}/images/profile-placeholder.jpg`;
   const backgroundImage = !!contract?.profile?.LSP3Profile?.backgroundImage[0]
     ? `https://ipfs.lukso.network/ipfs/${contract?.profile?.LSP3Profile?.backgroundImage[0]?.url?.substr(
         7
