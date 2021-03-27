@@ -58,12 +58,19 @@ export default function useLSP3Profile(address) {
     ? `https://ipfs.lukso.network/ipfs/${contract?.profile?.LSP3Profile?.profileImage[0]?.url?.substr(
         7
       )}`
-    : `${location.origin}/images/profile-placeholder.jpg`;
+    : `/images/profile-placeholder.jpg`;
   const backgroundImage = !!contract?.profile?.LSP3Profile?.backgroundImage[0]
     ? `https://ipfs.lukso.network/ipfs/${contract?.profile?.LSP3Profile?.backgroundImage[0]?.url?.substr(
         7
       )}`
     : "";
+
+  const lazyProfileImage = !!contract?.profile?.LSP3Profile?.profileImage[1]
+    ? `https://ipfs.lukso.network/ipfs/${contract?.profile?.LSP3Profile?.profileImage
+        ?.slice(-1)[0]
+        ?.url?.substr(7)}`
+    : `/images/profile-placeholder.jpg`;
+
   const name = contract?.profile?.LSP3Profile?.name;
   const description = contract?.profile?.LSP3Profile?.description;
   const links = contract?.profile?.LSP3Profile?.links;
@@ -75,6 +82,7 @@ export default function useLSP3Profile(address) {
     name,
     description,
     links,
+    lazyProfileImage,
   };
 
   return [contract, contractFound, profileData];

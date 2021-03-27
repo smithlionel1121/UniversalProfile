@@ -2,6 +2,7 @@ import React from "react";
 
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import "./profile-list.css";
 
@@ -13,9 +14,13 @@ export default function LSP3ProfileCard({ LSP3Profile, blockie }) {
     >
       <Card className="m-3 profile-list-profile text-dark">
         <Card.Img
+          as={LazyLoadImage}
           className="profile-list-image"
           variant="top"
           src={LSP3Profile?.profileImage}
+          placeholderSrc={
+            LSP3Profile?.lazyProfileImage || `/images/profile-placeholder.jpg`
+          }
         />
         <Card.Body className="profile-list-content">
           <Card.Text className="name">{LSP3Profile?.name}</Card.Text>
