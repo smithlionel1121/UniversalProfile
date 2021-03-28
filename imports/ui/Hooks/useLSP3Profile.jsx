@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import useERC725Contract from "./useERC725Contract";
-import useFetchContractData from "./useFetchContractData";
+import { makeCancelable } from "./utils";
 
 const schema = [
   {
@@ -45,10 +45,38 @@ export default function useLSP3Profile(address) {
     return data;
   }
 
-  const [contract, contractFound] = useFetchContractData(
-    getLSP3ProfileData,
-    erc725
-  );
+  const [data, setData] = useState({
+    contract: {},
+    contractFound: null,
+  });
+
+  useEffect(() => {
+    const cancelablePromise = makeCancelable(getLSP3ProfileData(erc725));
+    cancelablePromise.promise
+      .then(contract => {
+        setData({
+          contract,
+          contractFound: true,
+        });
+      })
+      .catch(err => {
+        if (!err.isCanceled) {
+          setData({
+            contract: {},
+            contractFound: false,
+          });
+          if (err.message !== "Missing ERC725 contract address.") {
+            console.error(err);
+          }
+        }
+      });
+
+    return () => {
+      cancelablePromise.cancel();
+    };
+  }, []);
+
+  const { contract, contractFound } = data;
 
   let profileData;
   const anon =

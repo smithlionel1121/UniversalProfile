@@ -1,10 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import useERC725Contract from "./useERC725Contract";
-import useFetchContractData from "./useFetchContractData";
-
-import { promisedBatchRequest } from "./utils";
-
+import { makeCancelable, promisedBatchRequest } from "./utils";
 import abi from "../abis/LSP4DigitalCertificate.json";
 
 const schema = [
@@ -78,10 +75,45 @@ export default function useLSP4AssetData(assetAddress, account) {
     return data;
   }
 
-  const [[contract, contractFound], [asset, assetFound]] = [
-    useFetchContractData(getLSP4AssetData, erc725),
-    useFetchContractData(web3Fetch, assetAddress, account),
-  ];
+  const [data, setData] = useState({
+    contract: {},
+    contractFound: null,
+    asset: {},
+  });
+
+  useEffect(() => {
+    const allData = Promise.all([
+      getLSP4AssetData(erc725),
+      web3Fetch(assetAddress, account),
+    ]);
+    const cancelablePromise = makeCancelable(allData);
+    cancelablePromise.promise
+      .then(([contract, asset]) => {
+        setData({
+          contract,
+          contractFound: true,
+          asset,
+        });
+      })
+      .catch(err => {
+        if (!err.isCanceled) {
+          setData({
+            contract: {},
+            contractFound: false,
+            asset: {},
+          });
+          if (err.message !== "Missing ERC725 contract address.") {
+            console.error(err);
+          }
+        }
+      });
+
+    return () => {
+      cancelablePromise.cancel();
+    };
+  }, []);
+
+  const { contract, contractFound, asset } = data;
 
   let assetData;
 
@@ -90,7 +122,7 @@ export default function useLSP4AssetData(assetAddress, account) {
     ? `https://ipfs.lukso.network/ipfs/${contract?.asset?.LSP4Metadata?.images?.[0]?.[0]?.url?.substr(
         7
       )}`
-    : `${location.origin}/images/digital-fashion-placeholder.jpg`;
+    : "/images/digital-fashion-placeholder.jpg";
   let description = contract?.asset?.LSP4Metadata?.description;
   assetData = {
     assetImages,

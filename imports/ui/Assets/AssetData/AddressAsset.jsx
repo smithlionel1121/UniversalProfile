@@ -20,8 +20,12 @@ export function AddressAsset() {
 
   let img = makeBlockie(address);
   const [blockie, setblockie] = useState(img);
-  if (!contractFound) {
+
+  if (contractFound === false) {
     return <div className="text-center p-3">Contract address not found</div>;
+  }
+  if (!contractFound) {
+    return null;
   }
   const colClass = "d-flex justify-content-center py-2";
 
