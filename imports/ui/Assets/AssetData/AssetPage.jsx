@@ -81,7 +81,7 @@ export function AssetPage(props) {
           render={props => (
             <AddressAsset
               key={props.match.params.assetAddress}
-              address={address}
+              address={props.match.params.assetAddress}
             />
           )}
         />

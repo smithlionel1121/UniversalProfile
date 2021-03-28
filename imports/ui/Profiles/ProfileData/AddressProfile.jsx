@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from "react";
-import { useParams } from "react-router-dom";
 
 import "./profile-page.css";
 
@@ -11,9 +10,7 @@ import Image from "react-bootstrap/Image";
 import makeBlockie from "ethereum-blockies-base64";
 import useLSP3Profile from "../../Hooks/useLSP3Profile";
 
-export function AddressProfileData() {
-  let { profileAddress } = useParams();
-  let address = profileAddress;
+export function AddressProfileData({ address }) {
   const [account, contractFound, profileData] = useLSP3Profile(address);
 
   const { profileImage, name, description } = profileData;

@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from "react";
-import { useParams, withRouter } from "react-router-dom";
 
 import "./asset-page.css";
 import Container from "react-bootstrap/Container";
@@ -10,9 +9,7 @@ import Image from "react-bootstrap/Image";
 import makeBlockie from "ethereum-blockies-base64";
 import useLSP4Asset from "../../Hooks/useLSP4Asset";
 
-export function AddressAsset() {
-  let { assetAddress } = useParams();
-  let address = assetAddress;
+export function AddressAsset({ address }) {
   const [asset, contractFound, assetData] = useLSP4Asset(address);
 
   const { assetImages, name, description } = assetData;
@@ -62,4 +59,4 @@ export function AddressAsset() {
   );
 }
 
-export default withRouter(AddressAsset);
+export default AddressAsset;

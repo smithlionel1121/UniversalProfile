@@ -81,7 +81,7 @@ export function ProfilePage(props) {
           render={props => (
             <AddressProfile
               key={props.match.params.profileAddress}
-              address={address}
+              address={props.match.params.profileAddress}
             />
           )}
         />
