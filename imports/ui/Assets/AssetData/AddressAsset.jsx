@@ -12,7 +12,14 @@ import useLSP4Asset from "../../Hooks/useLSP4Asset";
 export function AddressAsset({ address }) {
   const [asset, contractFound, assetData] = useLSP4Asset(address);
 
-  const { assetImages, name, description } = assetData;
+  const {
+    assetImages,
+    name,
+    description,
+    symbol,
+    availableSupply,
+    totalSupply,
+  } = assetData;
   const backgroundImage = `url(${assetData.backgroundImage})`;
 
   let img = makeBlockie(address);
@@ -24,14 +31,13 @@ export function AddressAsset({ address }) {
   if (!contractFound) {
     return null;
   }
-  const colClass = "d-flex justify-content-center py-2";
 
   return (
     <Fragment>
       <img className="identicon-right-abs" src={blockie} />
       <div style={{ backgroundImage }} className="asset-background-image" />
 
-      <Container className="text-center">
+      <Container className="text-center ">
         <Row className="d-flex justify-content-around pb-4">
           {assetImages?.slice(1)?.map((image, idx) => (
             <Col xs="auto" key={idx} className="pb-5">
@@ -44,14 +50,37 @@ export function AddressAsset({ address }) {
             </Col>
           ))}
         </Row>
-        <Row>
-          <Col xs={12} className={colClass}>
-            <h2>{`${name || `@${address.substring(2, 10)}`}`}</h2>
+        <Row className="mb-5">
+          <Col xs={12}>
+            <h2 className="mb-0">{`${
+              name || `@${address.substring(2, 10)}`
+            }`}</h2>
+          </Col>
+          <Col xs={12} className="mb-2 fw-light">
+            <h3 className="fw-normal">{`#${symbol}`}</h3>
+          </Col>
+        </Row>
+        <Row className="mb-5">
+          <Col xs={6}>
+            <Row>
+              <h4>Available Supply</h4>
+            </Row>
+            <Row>
+              <h4 className="fw-normal">{availableSupply}</h4>
+            </Row>
+          </Col>
+          <Col xs={6}>
+            <Row>
+              <h4>Total Supply</h4>
+            </Row>
+            <Row>
+              <h4 className="fw-normal">{totalSupply}</h4>
+            </Row>
           </Col>
         </Row>
         <Row>
-          <Col xs={12} className={colClass}>
-            <span>{description}</span>
+          <Col xs={12} className={"colClass"}>
+            <p>{description}</p>
           </Col>
         </Row>
       </Container>
