@@ -13,7 +13,7 @@ import useLSP3Profile from "../../Hooks/useLSP3Profile";
 export function AddressProfileData({ address }) {
   const [account, contractFound, profileData] = useLSP3Profile(address);
 
-  const { profileImage, name, description } = profileData;
+  const { profileImage, name, description, links } = profileData;
   const backgroundImage = `url(${profileData.backgroundImage})`;
 
   let img = makeBlockie(address);
@@ -25,7 +25,9 @@ export function AddressProfileData({ address }) {
   if (!contractFound) {
     return null;
   }
-  const colClass = "d-flex justify-content-center py-2";
+
+  let rowSpacing = "my-5";
+  let linkCol = links.length >= 4 ? 3 : 12 / links.length;
 
   return (
     <Fragment>
@@ -46,13 +48,40 @@ export function AddressProfileData({ address }) {
             />
           </Col>
         </Row>
-        <Row>
-          <Col xs={12} className={colClass}>
-            <span>{`@${name || address.substring(2, 10)}`}</span>
+        <Row className="mb-5">
+          <Col xs={12}>
+            <h2>{`@${name || address.substring(2, 10)}`}</h2>
           </Col>
         </Row>
-        <Row>
-          <Col xs={12} className={colClass}>
+        {!!links.length && (
+          <Row>
+            <Col className="px-auto">
+              <Row>
+                <h3 className="fw-normal mb-2">Links</h3>
+              </Row>
+              <Row className="d-flex justify-content-around">
+                {links.map(link => (
+                  <Col
+                    xs={linkCol}
+                    className="d-flex justify-content-center"
+                    key={link.title}
+                  >
+                    <a
+                      className="profile-link bg-secondary bg-gradient my-2 rounded-pill text-decoration-none"
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span>{link.title}</span>
+                    </a>
+                  </Col>
+                ))}
+              </Row>
+            </Col>
+          </Row>
+        )}
+        <Row className={rowSpacing}>
+          <Col xs={12}>
             <span>{description}</span>
           </Col>
         </Row>

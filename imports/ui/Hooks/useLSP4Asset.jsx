@@ -118,7 +118,7 @@ export default function useLSP4AssetData(assetAddress, account) {
   let assetData;
 
   let assetImages = contract?.asset?.LSP4Metadata?.images;
-  let backgroundImage = contract?.asset?.LSP4Metadata?.images?.[1]?.[0]?.url
+  let backgroundImage = contract?.asset?.LSP4Metadata?.images?.[0]?.[0]?.url
     ? `https://ipfs.lukso.network/ipfs/${contract?.asset?.LSP4Metadata?.images?.[0]?.[0]?.url?.substr(
         7
       )}`

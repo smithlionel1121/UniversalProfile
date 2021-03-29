@@ -19,6 +19,25 @@
   z-index: -1;
 }
 
+.profile-link {
+  display: block;
+  width: 15rem;
+  align-self: center;
+  padding: 1rem;
+}
+
+a.profile-link {
+  color: white;
+}
+
+.profile-link:focus,
+.profile-link:hover {
+  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+
 @media only screen and (min-width: 1200px) {
   .profile-background-image {
     margin-left: auto;
