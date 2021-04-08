@@ -21,24 +21,14 @@ import AssetRoute from "./Assets/AssetRoute";
 
 const cache = new InMemoryCache({
   typePolicies: {
-    Query: {
-      fields: {
-        allDesigners: {
-          keyArgs: false,
-          merge(existing = [], incoming) {
-            return [...existing, ...incoming];
-          },
-        },
-        allProfiles: {
-          keyArgs: false,
-          merge(existing = [], incoming) {
-            return [...existing, ...incoming];
-          },
-        },
-      },
+    Designer: {
+      keyFields: ["id"],
+    },
+    Profile: {
+      keyFields: ["id"],
     },
   },
-}).restore(window.__APOLLO_STATE__);
+});
 
 const link = ApolloLink.from([
   // MeteorAccountsLink(),

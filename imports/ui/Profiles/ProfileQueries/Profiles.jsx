@@ -3,14 +3,11 @@ import Profiler from "../Profiler";
 import { gql } from "apollo-boost";
 
 const GET_PROFILES = gql`
-  {
-    profilesList: getProfiles(pageSize: 50) {
-      profiles {
-        id
-        username
-        address
-        timestamp
-      }
+  query GetProfiles($username: String) {
+    profiles(username: $username, pageSize: 50) {
+      id
+      username
+      address
     }
   }
 `;

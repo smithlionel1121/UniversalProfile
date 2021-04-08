@@ -9,73 +9,44 @@ export const typeDefs = gql`
     id: String!
     username: String!
     address: String!
-    timestamp: String!
   }
 
   type Designer {
     id: String!
     username: String!
     address: String!
-    timestamp: String!
   }
 
   type Query {
-    getProfiles(pageSize: Int, after: String): ProfileConnection!
-    getDesigners(pageSize: Int, after: String): DesignersConnection!
-  }
-
-  type ProfileConnection {
-    cursor: String!
-    hasMore: Boolean!
-    profiles: [Profile]!
-  }
-  type DesignersConnection {
-    cursor: String!
-    hasMore: Boolean!
-    designers: [Designer]!
+    profiles(username: String, pageSize: Int): [Profile]!
+    designers(username: String, pageSize: Int): [Designer]!
   }
 `;
 
 const resolvers = {
   Query: {
-    getProfiles: async (_, { pageSize = 20, after }, { dataSources }) => {
-      const allProfiles = await dataSources.ProfileProvider.getAllProfiles();
-      // allProfiles.reverse();
-      const profiles = paginateResults({
-        after,
-        pageSize,
-        results: allProfiles,
-      });
+    profiles: async (_, { username = "", pageSize = 20 }, { dataSources }) => {
+      let profiles = await dataSources.ProfileProvider.getAllProfiles();
 
-      return {
-        profiles,
-        cursor: profiles.length ? profiles[profiles.length - 1].cursor : null,
-        hasMore: profiles.length
-          ? profiles[profiles.length - 1].cursor !==
-            allProfiles[allProfiles.length - 1].cursor
-          : false,
-      };
+      if (username) {
+        profiles = profiles.filter(
+          profile => profile.username.indexOf(username) === 0
+        );
+      }
+      if (profiles.length > pageSize) return profiles.slice(0, pageSize);
+      return profiles;
     },
 
-    getDesigners: async (_, { pageSize = 20, after }, { dataSources }) => {
-      const allDesigners = await dataSources.ProfileProvider.getAllDesigners();
-      // allDesigners.reverse();
-      const designers = paginateResults({
-        after,
-        pageSize,
-        results: allDesigners,
-      });
+    designers: async (_, { username = "", pageSize = 20 }, { dataSources }) => {
+      let designers = await dataSources.ProfileProvider.getAllDesigners();
 
-      return {
-        designers,
-        cursor: designers.length
-          ? designers[designers.length - 1].cursor
-          : null,
-        hasMore: designers.length
-          ? designers[designers.length - 1].cursor !==
-            allDesigners[allDesigners.length - 1].cursor
-          : false,
-      };
+      if (username) {
+        designers = designers.filter(
+          designer => designer.username.indexOf(username) === 0
+        );
+      }
+      if (designers.length > pageSize) return designers.slice(0, pageSize);
+      return designers;
     },
   },
 };

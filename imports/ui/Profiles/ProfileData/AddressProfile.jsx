@@ -27,7 +27,7 @@ export function AddressProfileData({ address }) {
   }
 
   let rowSpacing = "my-5";
-  let linkCol = links.length >= 4 ? 3 : 12 / links.length;
+  let linkCol = links?.length >= 4 ? 3 : 12 / links?.length;
 
   return (
     <Fragment>
@@ -53,7 +53,7 @@ export function AddressProfileData({ address }) {
             <h2>{`@${name || address.substring(2, 10)}`}</h2>
           </Col>
         </Row>
-        {!!links.length && (
+        {!!links?.length && (
           <Row>
             <Col className="px-auto">
               <Row>

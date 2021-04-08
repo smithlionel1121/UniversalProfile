@@ -4,14 +4,11 @@ import { gql } from "apollo-boost";
 import Profiler from "../Profiler";
 
 const GET_DESIGNERS = gql`
-  {
-    profilesList: getDesigners(pageSize: 50) {
-      profiles: designers {
-        id
-        username
-        address
-        timestamp
-      }
+  query GetProfiles($username: String) {
+    profiles: designers(username: $username, pageSize: 50) {
+      id
+      username
+      address
     }
   }
 `;

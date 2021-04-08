@@ -12,7 +12,6 @@ export class ProfileProvider extends RESTDataSource {
       id: `${profile.username}${profile.address}`,
       username: profile.username,
       address: profile.address,
-      timestamp: profile.timestamp,
     };
   }
 
