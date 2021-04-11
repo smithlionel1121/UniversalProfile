@@ -18,6 +18,7 @@ import Header from "./Header/Header";
 import NavBar from "./Header/NavBar";
 import ProfilerRoute from "./Profiles/ProfilerRoute";
 import AssetRoute from "./Assets/AssetRoute";
+import Footer from "./Footer/Footer";
 
 const cache = new InMemoryCache({
   typePolicies: {
@@ -46,17 +47,20 @@ const client = new ApolloClient({
 export const App = () => (
   <ApolloProvider client={client}>
     <Router>
-      <NavBar />
-      <Header />
-      <Switch>
-        <Redirect exact from="/" to="/designers" />
-        <Route path="/asset">
-          <AssetRoute />
-        </Route>
-        <Route path="/">
-          <ProfilerRoute />
-        </Route>
-      </Switch>
+      <div className="mb-5 pb-5">
+        <NavBar />
+        <Header />
+        <Switch>
+          <Redirect exact from="/" to="/designers" />
+          <Route path="/asset">
+            <AssetRoute />
+          </Route>
+          <Route path="/">
+            <ProfilerRoute />
+          </Route>
+        </Switch>
+      </div>
+      <Footer />
     </Router>
   </ApolloProvider>
 );

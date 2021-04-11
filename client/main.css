@@ -9,3 +9,14 @@ body {
   -o-background-size: cover;
   background-size: cover;
 }
+
+#react-target {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.tag-font {
+  font-family: "Exo 2", sans-serif;
+  font-size: 2rem;
+}
