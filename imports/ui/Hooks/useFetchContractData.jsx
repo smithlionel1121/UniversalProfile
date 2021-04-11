@@ -3,20 +3,18 @@ import React, { useEffect, useState } from "react";
 import { makeCancelable } from "./utils";
 
 function useFetchContractData(fetchFunction, ...params) {
-  const [contract, setContract] = useState();
-  const [contractFound, setContractFound] = useState(true);
+  const [contractInfo, setContractInfo] = useState([null, null]);
 
   useEffect(() => {
     const cancelablePromise = makeCancelable(fetchFunction(...params));
     cancelablePromise.promise
       .then(data => {
-        setContract(data);
-        setContractFound(true);
+        setContractInfo([data, true]);
       })
       .catch(err => {
         if (!err.isCanceled) {
           if (err.message === "Missing ERC725 contract address.") {
-            setContractFound(false);
+            setContractInfo([null, false]);
           } else {
             console.error(err);
           }
@@ -28,7 +26,7 @@ function useFetchContractData(fetchFunction, ...params) {
     };
   }, []);
 
-  return [contract, contractFound];
+  return contractInfo;
 }
 
 export default useFetchContractData;
