@@ -31,11 +31,26 @@ a.profile-link {
 }
 
 .profile-link:focus,
-.profile-link:hover {
+.profile-link:hover,
+.profile-asset-box:focus,
+.profile-asset-box:hover {
   box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.1);
   transform: scale(1.05);
+}
+
+.profile-asset-box {
+  width: 200px;
+  color: black;
+  text-decoration: none;
+}
+
+.profile-asset-image {
+  width: 200px;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
 }
 
 @media only screen and (min-width: 1200px) {

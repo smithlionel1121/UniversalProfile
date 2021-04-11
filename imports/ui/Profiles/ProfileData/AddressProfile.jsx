@@ -9,6 +9,8 @@ import Image from "react-bootstrap/Image";
 
 import makeBlockie from "ethereum-blockies-base64";
 import useLSP3Profile from "../../Hooks/useLSP3Profile";
+import OwnedAssetList from "./OwnedAssetList";
+import ProfileAsset from "./ProfileAsset";
 
 export function AddressProfileData({ address }) {
   const [account, contractFound, profileData] = useLSP3Profile(address);
@@ -17,7 +19,7 @@ export function AddressProfileData({ address }) {
   const backgroundImage = `url(${profileData.backgroundImage})`;
 
   let img = makeBlockie(address);
-  const [blockie, setblockie] = useState(img);
+  const [blockie, setBlockie] = useState(img);
 
   if (contractFound === false) {
     return <div className="text-center p-3">Contract address not found</div>;
@@ -62,7 +64,9 @@ export function AddressProfileData({ address }) {
               <Row className="d-flex justify-content-around">
                 {links.map(link => (
                   <Col
-                    xs={linkCol}
+                    xs={12}
+                    sm={6}
+                    md={linkCol}
                     className="d-flex justify-content-center"
                     key={link.title}
                   >
@@ -80,6 +84,32 @@ export function AddressProfileData({ address }) {
             </Col>
           </Row>
         )}
+        {!!account["LSP3IssuedAssets[]"].filter?.(val => !!val)?.length && (
+          <Row className="py-5">
+            <Col className="px-auto">
+              <Row>
+                <h3 className="fw-normal mb-2">Issued Assets</h3>
+              </Row>
+              <Row className="d-flex justify-content-around">
+                {account["LSP3IssuedAssets[]"]
+                  ?.filter(val => !!val)
+                  .map(assetAddress => (
+                    <Col
+                      key={assetAddress}
+                      className="d-flex justify-content-around my-3"
+                    >
+                      <ProfileAsset
+                        assetAddress={assetAddress}
+                        account={address}
+                        issued={true}
+                      />
+                    </Col>
+                  ))}
+              </Row>
+            </Col>
+          </Row>
+        )}
+        <OwnedAssetList address={address} />
         <Row className={rowSpacing}>
           <Col xs={12}>
             <span>{description}</span>
