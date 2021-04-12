@@ -26,6 +26,7 @@ export function AddressProfileData({ address }) {
   if (!contractFound) {
     return null;
   }
+  console.log(links);
 
   const rowSpacing = "my-5";
   const linkCol = links?.length >= 4 ? 3 : 12 / links?.length;
@@ -61,24 +62,26 @@ export function AddressProfileData({ address }) {
                 <h3 className="fw-normal mb-2">Links</h3>
               </Row>
               <Row className="d-flex justify-content-around">
-                {links.map((link) => (
-                  <Col
-                    xs={12}
-                    sm={6}
-                    md={linkCol}
-                    className="d-flex justify-content-center"
-                    key={link.title}
-                  >
-                    <a
-                      className="profile-link bg-secondary bg-gradient my-2 rounded-pill text-decoration-none"
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                {links
+                  .filter((link) => !!link)
+                  .map((link) => (
+                    <Col
+                      xs={12}
+                      sm={6}
+                      md={linkCol}
+                      className="d-flex justify-content-center"
+                      key={link.title}
                     >
-                      <span>{link.title}</span>
-                    </a>
-                  </Col>
-                ))}
+                      <a
+                        className="profile-link bg-secondary bg-gradient my-2 px-4  rounded-pill text-decoration-none"
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span>{link.title}</span>
+                      </a>
+                    </Col>
+                  ))}
               </Row>
             </Col>
           </Row>
