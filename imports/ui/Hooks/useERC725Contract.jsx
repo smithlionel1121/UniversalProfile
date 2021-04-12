@@ -1,5 +1,3 @@
-import React from "react";
-
 import ERC725 from "erc725.js";
 
 export default function useERC725Contract(address, schema) {

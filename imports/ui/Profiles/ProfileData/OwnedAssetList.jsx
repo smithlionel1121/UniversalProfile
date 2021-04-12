@@ -1,13 +1,20 @@
 import React from "react";
-import useFetchContractData from "../../Hooks/useFetchContractData";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
+import useFetchContractData from "../../Hooks/useFetchContractData";
 import ProfileAsset from "./ProfileAsset";
 
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+async function tokenList(address) {
+  const res = await fetch(
+    `https://blockscout.com/lukso/l14/api?module=account&action=tokenlist&address=${address}`,
+  );
+  const data = res.json();
+  return data;
+}
 
 export default function OwnedAssetList({ address }) {
-  const [tokens, tokensFound] = useFetchContractData(tokenList, address);
+  const [tokens] = useFetchContractData(tokenList, address);
   if (!tokens?.result?.length) return null;
 
   return (
@@ -17,7 +24,7 @@ export default function OwnedAssetList({ address }) {
           <h3 className="fw-normal mb-2">Owned Assets</h3>
         </Row>
         <Row className="d-flex justify-content-around">
-          {tokens.result.map(asset => (
+          {tokens.result.map((asset) => (
             <Col
               className="d-flex justify-content-around my-3"
               key={asset.contractAddress}
@@ -32,12 +39,4 @@ export default function OwnedAssetList({ address }) {
       </Col>
     </Row>
   );
-}
-
-async function tokenList(address) {
-  const res = await fetch(
-    `https://blockscout.com/lukso/l14/api?module=account&action=tokenlist&address=${address}`
-  );
-  const data = res.json();
-  return data;
 }

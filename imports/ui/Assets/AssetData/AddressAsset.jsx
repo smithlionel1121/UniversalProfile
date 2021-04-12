@@ -1,16 +1,16 @@
-import React, { Fragment, useState } from "react";
-
 import "./asset-page.css";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Image from "react-bootstrap/Image";
 
 import makeBlockie from "ethereum-blockies-base64";
+import React, { Fragment, useState } from "react";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Image from "react-bootstrap/Image";
+import Row from "react-bootstrap/Row";
+
 import useLSP4Asset from "../../Hooks/useLSP4Asset";
 
 export function AddressAsset({ address }) {
-  const [asset, contractFound, assetData] = useLSP4Asset(address);
+  const [, contractFound, assetData] = useLSP4Asset(address);
 
   const {
     assetImages,
@@ -22,8 +22,8 @@ export function AddressAsset({ address }) {
   } = assetData;
   const backgroundImage = `url(${assetData.backgroundImage})`;
 
-  let img = makeBlockie(address);
-  const [blockie, setblockie] = useState(img);
+  const img = makeBlockie(address);
+  const [blockie] = useState(img);
 
   if (contractFound === false) {
     return <div className="text-center p-3">Contract address not found</div>;
@@ -33,22 +33,29 @@ export function AddressAsset({ address }) {
   }
 
   return (
-    <Fragment>
-      <img className="identicon-right-abs" src={blockie} />
+    <>
+      <img className="identicon-right-abs" src={blockie} alt="" />
       <div style={{ backgroundImage }} className="asset-background-image" />
 
       <Container className="text-center ">
         <Row className="d-flex justify-content-around pb-4">
-          {assetImages?.slice(1)?.map((image, idx) => (
-            <Col xs="auto" key={idx} className="pb-5">
-              <Image
-                className="asset-image"
-                src={`https://ipfs.lukso.network/ipfs/${image[0].url?.substr(
-                  7
-                )}`}
-              />
-            </Col>
-          ))}
+          {assetImages
+            ?.slice(1)
+            ?.filter((val) => !!val)
+            ?.map((image) => (
+              <Col
+                xs="auto"
+                key={image[0].hash?.substring(2, 10)}
+                className="pb-5"
+              >
+                <Image
+                  className="asset-image"
+                  src={`https://ipfs.lukso.network/ipfs/${image[0].url?.substr(
+                    7,
+                  )}`}
+                />
+              </Col>
+            ))}
         </Row>
         <Row className="mb-5">
           <Col xs={12}>
@@ -79,12 +86,12 @@ export function AddressAsset({ address }) {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} className={"colClass"}>
+          <Col xs={12} className="colClass">
             <p>{description}</p>
           </Col>
         </Row>
       </Container>
-    </Fragment>
+    </>
   );
 }
 

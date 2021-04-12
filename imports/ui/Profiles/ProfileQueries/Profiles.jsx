@@ -1,6 +1,7 @@
-import React from "react";
-import Profiler from "../Profiler";
 import { gql } from "apollo-boost";
+import React from "react";
+
+import Profiler from "../Profiler";
 
 const GET_PROFILES = gql`
   query GetProfiles($username: String) {

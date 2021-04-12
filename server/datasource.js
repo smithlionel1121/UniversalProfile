@@ -1,6 +1,6 @@
 import { RESTDataSource } from "apollo-datasource-rest";
 
-export class ProfileProvider extends RESTDataSource {
+export default class ProfileProvider extends RESTDataSource {
   constructor() {
     super();
     this.baseURL =
@@ -18,14 +18,14 @@ export class ProfileProvider extends RESTDataSource {
   async getAllDesigners() {
     const res = await this.get("/profile-index-designers");
     return Array.isArray(res)
-      ? res.map(profile => this.profileReducer(profile))
+      ? res.map((profile) => this.profileReducer(profile))
       : [];
   }
 
   async getAllProfiles() {
     const res = await this.get("/profile-index");
     return Array.isArray(res)
-      ? res.map(profile => this.profileReducer(profile))
+      ? res.map((profile) => this.profileReducer(profile))
       : [];
   }
 }

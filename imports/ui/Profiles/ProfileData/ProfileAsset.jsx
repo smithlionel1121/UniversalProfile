@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import useLSP4AssetData from "../../Hooks/useLSP4Asset";
 
 export default function ProfileAsset({
@@ -7,10 +8,7 @@ export default function ProfileAsset({
   account,
   issued = false,
 }) {
-  const [asset, contractFound, assetData] = useLSP4AssetData(
-    assetAddress,
-    account
-  );
+  const [, , assetData] = useLSP4AssetData(assetAddress, account);
   const backgroundImage = `url(${assetData.backgroundImage})`;
   const { name, symbol, tokenHolderBalance, totalSupply } = assetData;
 

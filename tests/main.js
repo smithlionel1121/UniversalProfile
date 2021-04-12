@@ -1,4 +1,5 @@
 import assert from "assert";
+/* global describe it */
 
 describe("UniversalProfile", function () {
   it("package.json has correct name", async function () {

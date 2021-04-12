@@ -1,16 +1,15 @@
 import React, { Fragment, useState } from "react";
-
-import Profiles from "./ProfileQueries/Profiles";
-import Designers from "./ProfileQueries/Designers";
-import ProfilePage from "./ProfileData/ProfilePage";
-
-import { Route } from "react-router";
 import Container from "react-bootstrap/Container";
+import { Route } from "react-router";
+
+import ProfilePage from "./ProfileData/ProfilePage";
+import Designers from "./ProfileQueries/Designers";
+import Profiles from "./ProfileQueries/Profiles";
 
 export default function ProfilerRoute() {
   const [filterAnon, setFilterAnon] = useState(false);
   return (
-    <Fragment>
+    <>
       <Container>
         <Route path="/profiles">
           <Profiles filterAnon={filterAnon} setFilterAnon={setFilterAnon} />
@@ -20,6 +19,6 @@ export default function ProfilerRoute() {
         </Route>
       </Container>
       <Route path="/address" component={ProfilePage} />
-    </Fragment>
+    </>
   );
 }

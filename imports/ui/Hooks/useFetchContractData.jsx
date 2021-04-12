@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { makeCancelable } from "./utils";
 
@@ -8,10 +8,10 @@ function useFetchContractData(fetchFunction, ...params) {
   useEffect(() => {
     const cancelablePromise = makeCancelable(fetchFunction(...params));
     cancelablePromise.promise
-      .then(data => {
+      .then((data) => {
         setContractInfo([data, true]);
       })
-      .catch(err => {
+      .catch((err) => {
         if (!err.isCanceled) {
           if (err.message === "Missing ERC725 contract address.") {
             setContractInfo([null, false]);
@@ -24,6 +24,7 @@ function useFetchContractData(fetchFunction, ...params) {
     return () => {
       cancelablePromise.cancel();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return contractInfo;

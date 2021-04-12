@@ -1,10 +1,9 @@
 import { ApolloServer, gql } from "apollo-server-express";
 import { WebApp } from "meteor/webapp";
 
-import { ProfileProvider } from "./datasource";
-import { paginateResults } from "./utils";
+import ProfileProvider from "./datasource";
 
-export const typeDefs = gql`
+const typeDefs = gql`
   type Profile {
     id: String!
     username: String!
@@ -30,7 +29,7 @@ const resolvers = {
 
       if (username) {
         profiles = profiles.filter(
-          profile => profile.username.indexOf(username) === 0
+          (profile) => profile.username.indexOf(username) === 0,
         );
       }
       if (profiles.length > pageSize) return profiles.slice(0, pageSize);
@@ -42,7 +41,7 @@ const resolvers = {
 
       if (username) {
         designers = designers.filter(
-          designer => designer.username.indexOf(username) === 0
+          (designer) => designer.username.indexOf(username) === 0,
         );
       }
       if (designers.length > pageSize) return designers.slice(0, pageSize);

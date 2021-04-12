@@ -1,35 +1,28 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
 import {
-  Switch,
-  Route,
-  withRouter,
-  useRouteMatch,
   Link,
   Redirect,
+  Route,
+  Switch,
+  useRouteMatch,
+  withRouter,
 } from "react-router-dom";
 
 import AddressAsset from "./AddressAsset";
 
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-
 export function AssetPage(props) {
   const [address, setAddress] = useState("");
-  let { path, url } = useRouteMatch();
+  const { path } = useRouteMatch();
   const [remember, setRemember] = useState(false);
 
   const onCheck = () => {
     setRemember(!remember);
   };
 
-  const handleChange = e => setAddress(e.target.value);
-
-  const onEnter = e => {
-    if (e.key === "Enter") {
-      getAddress();
-    }
-  };
+  const handleChange = (e) => setAddress(e.target.value);
 
   function getAddress() {
     if (remember) {
@@ -38,8 +31,14 @@ export function AssetPage(props) {
     props.history.push(`${path}/${address}`);
   }
 
+  const onEnter = (e) => {
+    if (e.key === "Enter") {
+      getAddress();
+    }
+  };
+
   return (
-    <Fragment>
+    <>
       <Container className="py-5">
         <Link to="/address">Switch to profiles</Link>
         <Form.Group controlId="contractAddress">
@@ -68,7 +67,7 @@ export function AssetPage(props) {
 
       <Switch>
         <Route exact path={path}>
-          {!!localStorage.getItem("myAsset") ? (
+          {localStorage.getItem("myAsset") ? (
             <Redirect to={`${path}/${localStorage.getItem("myAsset")}`} />
           ) : (
             <Container>
@@ -78,15 +77,15 @@ export function AssetPage(props) {
         </Route>
         <Route
           path={`${path}/:assetAddress`}
-          render={props => (
+          render={(routeProps) => (
             <AddressAsset
-              key={props.match.params.assetAddress}
-              address={props.match.params.assetAddress}
+              key={routeProps.match.params.assetAddress}
+              address={routeProps.match.params.assetAddress}
             />
           )}
         />
       </Switch>
-    </Fragment>
+    </>
   );
 }
 

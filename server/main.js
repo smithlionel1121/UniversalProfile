@@ -1,4 +1,5 @@
-import { Meteor } from "meteor/meteor";
 import "./apollo";
+
+import { Meteor } from "meteor/meteor";
 
 Meteor.startup(() => {});

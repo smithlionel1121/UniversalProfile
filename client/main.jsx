@@ -1,11 +1,12 @@
-import React from "react";
 import { Meteor } from "meteor/meteor";
+import React from "react";
 import { render } from "react-dom";
-import { App } from "/imports/ui/App";
-
 import Web3 from "web3";
+
+import App from "/imports/ui/App";
+
 const web3 = new Web3(
-  new Web3.providers.HttpProvider("https://rpc.l14.lukso.network")
+  new Web3.providers.HttpProvider("https://rpc.l14.lukso.network"),
 );
 
 Meteor.startup(() => {

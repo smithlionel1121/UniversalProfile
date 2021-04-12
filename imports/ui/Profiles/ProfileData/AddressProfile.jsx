@@ -1,13 +1,12 @@
-import React, { Fragment, useState } from "react";
-
 import "./profile-page.css";
 
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Image from "react-bootstrap/Image";
-
 import makeBlockie from "ethereum-blockies-base64";
+import React, { Fragment, useState } from "react";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Image from "react-bootstrap/Image";
+import Row from "react-bootstrap/Row";
+
 import useLSP3Profile from "../../Hooks/useLSP3Profile";
 import OwnedAssetList from "./OwnedAssetList";
 import ProfileAsset from "./ProfileAsset";
@@ -18,8 +17,8 @@ export function AddressProfileData({ address }) {
   const { profileImage, name, description, links } = profileData;
   const backgroundImage = `url(${profileData.backgroundImage})`;
 
-  let img = makeBlockie(address);
-  const [blockie, setBlockie] = useState(img);
+  const img = makeBlockie(address);
+  const [blockie] = useState(img);
 
   if (contractFound === false) {
     return <div className="text-center p-3">Contract address not found</div>;
@@ -28,12 +27,12 @@ export function AddressProfileData({ address }) {
     return null;
   }
 
-  let rowSpacing = "my-5";
-  let linkCol = links?.length >= 4 ? 3 : 12 / links?.length;
+  const rowSpacing = "my-5";
+  const linkCol = links?.length >= 4 ? 3 : 12 / links?.length;
 
   return (
-    <Fragment>
-      <img className="identicon-right-abs" src={blockie} />
+    <>
+      <img className="identicon-right-abs" src={blockie} alt="" />
       <div style={{ backgroundImage }} className="profile-background-image" />
 
       <Container className="text-center">
@@ -62,7 +61,7 @@ export function AddressProfileData({ address }) {
                 <h3 className="fw-normal mb-2">Links</h3>
               </Row>
               <Row className="d-flex justify-content-around">
-                {links.map(link => (
+                {links.map((link) => (
                   <Col
                     xs={12}
                     sm={6}
@@ -84,7 +83,7 @@ export function AddressProfileData({ address }) {
             </Col>
           </Row>
         )}
-        {!!account["LSP3IssuedAssets[]"].filter?.(val => !!val)?.length && (
+        {!!account["LSP3IssuedAssets[]"].filter?.((val) => !!val)?.length && (
           <Row className="py-5">
             <Col className="px-auto">
               <Row>
@@ -92,8 +91,8 @@ export function AddressProfileData({ address }) {
               </Row>
               <Row className="d-flex justify-content-around">
                 {account["LSP3IssuedAssets[]"]
-                  ?.filter(val => !!val)
-                  .map(assetAddress => (
+                  ?.filter((val) => !!val)
+                  .map((assetAddress) => (
                     <Col
                       key={assetAddress}
                       className="d-flex justify-content-around my-3"
@@ -101,7 +100,7 @@ export function AddressProfileData({ address }) {
                       <ProfileAsset
                         assetAddress={assetAddress}
                         account={address}
-                        issued={true}
+                        issued
                       />
                     </Col>
                   ))}
@@ -116,7 +115,7 @@ export function AddressProfileData({ address }) {
           </Col>
         </Row>
       </Container>
-    </Fragment>
+    </>
   );
 }
 

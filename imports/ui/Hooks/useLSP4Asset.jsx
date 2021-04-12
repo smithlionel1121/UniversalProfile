@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
+import abi from "../abis/LSP4DigitalCertificate.json";
 import useERC725Contract from "./useERC725Contract";
 import { makeCancelable, promisedBatchRequest } from "./utils";
-import abi from "../abis/LSP4DigitalCertificate.json";
 
 const schema = [
   {
@@ -33,16 +33,19 @@ const schema = [
 export default function useLSP4AssetData(assetAddress, account) {
   const erc725 = useERC725Contract(assetAddress, schema);
 
-  async function getLSP4AssetData(erc725) {
+  async function getLSP4AssetData() {
     const data = await erc725.getAllData();
     data.asset = await erc725.fetchData("LSP4Metadata");
     return data;
   }
 
-  async function web3Fetch(assetAddress, account) {
-    let contract = new web3.eth.Contract(abi, assetAddress);
+  async function web3Fetch() {
+    const contract = new web3.eth.Contract(abi, assetAddress);
 
-    let owner, name, symbol, totalSupply, availableSupply, tokenHolderBalance;
+    let owner;
+    let name;
+    let symbol;
+    let totalSupply;
 
     try {
       [owner, name, symbol, totalSupply] = await promisedBatchRequest([
@@ -55,15 +58,16 @@ export default function useLSP4AssetData(assetAddress, account) {
       console.log(
         "Couldn't fetch asset data from the smart contract",
         assetAddress,
-        error
+        error,
       );
     }
 
-    availableSupply = await contract.methods.balanceOf(owner).call();
-    account &&
-      (tokenHolderBalance = await contract.methods.balanceOf(account).call());
+    const availableSupply = await contract.methods.balanceOf(owner).call();
+    const tokenHolderBalance = account
+      ? await contract.methods.balanceOf(account).call()
+      : null;
 
-    let data = {
+    const data = {
       owner,
       name,
       symbol,
@@ -95,7 +99,7 @@ export default function useLSP4AssetData(assetAddress, account) {
           asset,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         if (!err.isCanceled) {
           setData({
             contract: {},
@@ -111,20 +115,19 @@ export default function useLSP4AssetData(assetAddress, account) {
     return () => {
       cancelablePromise.cancel();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { contract, contractFound, asset } = data;
 
-  let assetData;
-
-  let assetImages = contract?.asset?.LSP4Metadata?.images;
-  let backgroundImage = contract?.asset?.LSP4Metadata?.images?.[0]?.[0]?.url
+  const assetImages = contract?.asset?.LSP4Metadata?.images;
+  const backgroundImage = contract?.asset?.LSP4Metadata?.images?.[0]?.[0]?.url
     ? `https://ipfs.lukso.network/ipfs/${contract?.asset?.LSP4Metadata?.images?.[0]?.[0]?.url?.substr(
-        7
+        7,
       )}`
     : "/images/digital-fashion-placeholder.jpg";
-  let description = contract?.asset?.LSP4Metadata?.description;
-  assetData = {
+  const description = contract?.asset?.LSP4Metadata?.description;
+  const assetData = {
     assetImages,
     backgroundImage,
     description,

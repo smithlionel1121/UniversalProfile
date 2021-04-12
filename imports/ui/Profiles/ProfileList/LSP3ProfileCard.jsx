@@ -1,10 +1,9 @@
-import React from "react";
-
-import Card from "react-bootstrap/Card";
-import { Link } from "react-router-dom";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-
 import "./profile-list.css";
+
+import React from "react";
+import Card from "react-bootstrap/Card";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Link } from "react-router-dom";
 
 export default function LSP3ProfileCard({ LSP3Profile, blockie }) {
   return (
@@ -19,12 +18,12 @@ export default function LSP3ProfileCard({ LSP3Profile, blockie }) {
           variant="top"
           src={LSP3Profile?.profileImage}
           placeholderSrc={
-            LSP3Profile?.lazyProfileImage || `/images/profile-placeholder.jpg`
+            LSP3Profile?.lazyProfileImage || "/images/profile-placeholder.jpg"
           }
         />
         <Card.Body className="profile-list-content">
           <Card.Text className="name">{LSP3Profile?.name}</Card.Text>
-          <img className="identicon-br" src={blockie} />
+          <img className="identicon-br" src={blockie} alt="" />
         </Card.Body>
       </Card>
     </Link>

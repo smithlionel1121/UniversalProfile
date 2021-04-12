@@ -1,16 +1,16 @@
-import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
-
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
+import React, { useState } from "react";
 import Col from "react-bootstrap/Col";
-import ToggleButton from "react-bootstrap/ToggleButton";
-import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
+import Container from "react-bootstrap/Container";
 import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";
+import Row from "react-bootstrap/Row";
 import Spinner from "react-bootstrap/Spinner";
-import ProfileFilter from "./ProfileList/ProfileFilter";
+import ToggleButton from "react-bootstrap/ToggleButton";
+import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import { Link } from "react-router-dom";
+
+import ProfileFilter from "./ProfileList/ProfileFilter";
 
 const Profiler = ({ QUERY, filterAnon, setFilterAnon }) => {
   const [username, setUsername] = useState("");
@@ -37,9 +37,9 @@ const Profiler = ({ QUERY, filterAnon, setFilterAnon }) => {
   }
   if (error) return <p>Error ⁉️</p>;
 
-  const handleChange = val => setFilterAnon(val);
+  const handleChange = (val) => setFilterAnon(val);
 
-  let opacity = loading ? "100%" : "0%";
+  const opacity = loading ? "100%" : "0%";
 
   return (
     <div>
@@ -62,7 +62,7 @@ const Profiler = ({ QUERY, filterAnon, setFilterAnon }) => {
                 onChange={handleChange}
                 size="sm"
               >
-                <ToggleButton variant="outline-primary" value={true}>
+                <ToggleButton variant="outline-primary" value>
                   {" "}
                   On
                 </ToggleButton>
@@ -82,7 +82,7 @@ const Profiler = ({ QUERY, filterAnon, setFilterAnon }) => {
             type="text"
             placeholder="Enter Username"
             value={username}
-            onChange={e => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             aria-describedby="spinner-addon"
           />
           <InputGroup.Append>
@@ -98,7 +98,7 @@ const Profiler = ({ QUERY, filterAnon, setFilterAnon }) => {
       </Row>
 
       <Container className="d-flex flex-wrap justify-content-evenly">
-        {profiles?.map(profile => (
+        {profiles?.map((profile) => (
           <ProfileFilter
             className="profile-container"
             key={profile.id}

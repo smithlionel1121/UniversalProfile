@@ -1,6 +1,6 @@
+import { gql } from "apollo-boost";
 import React from "react";
 
-import { gql } from "apollo-boost";
 import Profiler from "../Profiler";
 
 const GET_DESIGNERS = gql`

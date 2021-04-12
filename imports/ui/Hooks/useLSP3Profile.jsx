@@ -1,8 +1,5 @@
-import React from "react";
-
 import useERC725Contract from "./useERC725Contract";
 import useFetchContractData from "./useFetchContractData";
-import { makeCancelable } from "./utils";
 
 const schema = [
   {
@@ -40,42 +37,38 @@ const schema = [
 export default function useLSP3Profile(address) {
   const erc725 = useERC725Contract(address, schema);
 
-  async function getLSP3ProfileData(erc725) {
+  async function getLSP3ProfileData() {
     const data = await erc725.getAllData();
     data.profile = await erc725.fetchData("LSP3Profile");
     return data;
   }
 
-  const [contract, contractFound] = useFetchContractData(
-    getLSP3ProfileData,
-    erc725
-  );
+  const [contract, contractFound] = useFetchContractData(getLSP3ProfileData);
 
-  let profileData;
   const anon =
     !contract?.profile?.LSP3Profile?.profileImage[0] &&
     !contract?.profile?.LSP3Profile?.name;
-  const profileImage = !!contract?.profile?.LSP3Profile?.profileImage[0]
+  const profileImage = contract?.profile?.LSP3Profile?.profileImage[0]
     ? `https://ipfs.lukso.network/ipfs/${contract?.profile?.LSP3Profile?.profileImage[0]?.url?.substr(
-        7
+        7,
       )}`
-    : `/images/profile-placeholder.jpg`;
-  const backgroundImage = !!contract?.profile?.LSP3Profile?.backgroundImage[0]
+    : "/images/profile-placeholder.jpg";
+  const backgroundImage = contract?.profile?.LSP3Profile?.backgroundImage[0]
     ? `https://ipfs.lukso.network/ipfs/${contract?.profile?.LSP3Profile?.backgroundImage[0]?.url?.substr(
-        7
+        7,
       )}`
     : "";
 
-  const lazyProfileImage = !!contract?.profile?.LSP3Profile?.profileImage[1]
+  const lazyProfileImage = contract?.profile?.LSP3Profile?.profileImage[1]
     ? `https://ipfs.lukso.network/ipfs/${contract?.profile?.LSP3Profile?.profileImage
         ?.slice(-1)[0]
         ?.url?.substr(7)}`
-    : `/images/profile-placeholder.jpg`;
+    : "/images/profile-placeholder.jpg";
 
   const name = contract?.profile?.LSP3Profile?.name;
   const description = contract?.profile?.LSP3Profile?.description;
   const links = contract?.profile?.LSP3Profile?.links;
-  profileData = {
+  const profileData = {
     anon,
     address,
     profileImage,
